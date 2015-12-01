@@ -57,6 +57,20 @@ syscall	freemem(
 		block->mnext = next;
 		block->mlength = nbytes;
 		prev->mnext = block;
+        /* jteague6 - support for rear list searching - modify mprev
+         * links and reset memtail->mprev if needed */
+        if( prev == &memlist ) {
+            block->mprev = NULL;
+        }
+        else {
+            block->mprev = prev;
+        }
+        if( block->mnext == NULL ) {
+            memtail.mprev = block;
+        }
+        else {
+            block->mnext->mprev = block;
+        }
 	}
 
 	/* Coalesce with next block if adjacent */
@@ -64,6 +78,14 @@ syscall	freemem(
 	if (((uint32) block + block->mlength) == (uint32) next) {
 		block->mlength += next->mlength;
 		block->mnext = next->mnext;
+        /* jteague6 - support for rear list searching - modify mprev
+         * links and reset memtail->mprev if needed */
+        if( block->mnext == NULL ) {
+            memtail.mprev = block;
+        }
+        else {
+            block->mnext->mprev = block;
+        }
 	}
 	restore(mask);
 	return OK;
