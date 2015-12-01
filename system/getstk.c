@@ -51,6 +51,7 @@ char  	*getstk(
 	if (nbytes == fits->mlength) {		/* Block is exact match	*/
         /* jteague6 - additional code to support doubly-linked list and
          * searching from the back of the list. */
+        fits->mnext->mprev = fits->mprev;
 		fitsprev->mnext = fits->mnext;
 	} else {				/* Remove top section	*/
 		fits->mlength -= nbytes;

@@ -27,6 +27,15 @@ char  	*getmem(
 
 		if (curr->mlength == nbytes) {	/* Block is exact match	*/
 			prev->mnext = curr->mnext;
+            /* jteague6 - allow prev node re-linking to support
+             * from-the-back node searching */
+            if( curr == memtail.mprev ) {
+                memtail.mprev = prev;
+            }
+            else {
+                curr->mnext->mprev = prev;
+            }
+
 			memlist.mlength -= nbytes;
 			restore(mask);
 			return (char *)(curr);
@@ -38,6 +47,16 @@ char  	*getmem(
 			leftover->mnext = curr->mnext;
 			leftover->mlength = curr->mlength - nbytes;
 			memlist.mlength -= nbytes;
+
+            /* jteague6 - support prev node re-linking to allow
+             * from-the-back memory searching */
+            leftover->mprev = curr->mprev;
+            if( curr == memtail.mprev ) {
+                memtail.mprev = leftover;
+            }
+            else {
+                curr->mnext->mprev = leftover;
+            }
 			restore(mask);
 			return (char *)(curr);
 		} else {			/* Move to next block	*/
