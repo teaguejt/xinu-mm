@@ -25,7 +25,7 @@ char  	*getstk(
 
     /* jteague6 - start searching from the back of the list */
 	prev = &memtail;
-	curr = memlist.mprev;
+	curr = memtail.mprev;
 	fits = NULL;
 	fitsprev = NULL;  /* Just to avoid a compiler warning */
 
@@ -34,7 +34,6 @@ char  	*getstk(
          * fitst, but we want to also make sure it is the first fitting block
          * that has been found, or that it is smaller than the current
          * fitting block. */
-        kprintf( "Getstk: Checking node 0x%X\n", (uint32)curr );
         if (curr->mlength >= nbytes &&
                 ( read == 0 ||
                   curr->mlength < fits->mlength )) {	/* Record block address	*/
