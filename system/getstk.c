@@ -23,6 +23,7 @@ char  	*getstk(
 
 	nbytes = (uint32) roundmb(nbytes);	/* Use mblock multiples	*/
 
+    /* jteague6 - start searching from the back of the list */
 	prev = &memlist;
 	curr = memlist.mnext;
 	fits = NULL;
@@ -51,7 +52,13 @@ char  	*getstk(
 	if (nbytes == fits->mlength) {		/* Block is exact match	*/
         /* jteague6 - additional code to support doubly-linked list and
          * searching from the back of the list. */
-        fits->mnext->mprev = fits->mprev;
+        if( fits->mnext == NULL ) {
+            prev->mnext = NULL;
+            memtail.mprev = prev;
+        }
+        else {
+            fits->mnext->mprev = fits->mprev;
+        }
 		fitsprev->mnext = fits->mnext;
 	} else {				/* Remove top section	*/
 		fits->mlength -= nbytes;
