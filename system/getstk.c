@@ -24,8 +24,8 @@ char  	*getstk(
 	nbytes = (uint32) roundmb(nbytes);	/* Use mblock multiples	*/
 
     /* jteague6 - start searching from the back of the list */
-	prev = &memlist;
-	curr = memlist.mnext;
+	prev = &memtail;
+	curr = memlist.mprev;
 	fits = NULL;
 	fitsprev = NULL;  /* Just to avoid a compiler warning */
 
@@ -42,7 +42,7 @@ char  	*getstk(
             read = 1;           /* To prevent erroneous positives */
 		}
 		prev = curr;
-		curr = curr->mnext;
+		curr = curr->mprev;
 	}
 
 	if (fits == NULL) {			/* No block was found	*/
