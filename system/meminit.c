@@ -23,7 +23,7 @@ void	meminit(void)
 	memlist.mnext = (struct memblk *)minheap;
 	memptr = memlist.mnext;
     /* jteague6 - configure backwards searching */
-    memtail.mprev = (struct memblk *)minheap;
+    memtail.mprev = memptr;
 
 
 	memptr->mnext = (struct memblk *)NULL;

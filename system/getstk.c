@@ -34,6 +34,7 @@ char  	*getstk(
          * fitst, but we want to also make sure it is the first fitting block
          * that has been found, or that it is smaller than the current
          * fitting block. */
+        kprintf( "Getstk: Checking node 0x%X\n", (uint32)curr );
         if (curr->mlength >= nbytes &&
                 ( read == 0 ||
                   curr->mlength < fits->mlength )) {	/* Record block address	*/
